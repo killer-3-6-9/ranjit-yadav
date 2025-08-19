@@ -3,292 +3,133 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ranjit Yadav</title>
+  <title>Ranjit Yadav - Innovations & News</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    :root {
-      --bg-color: #0d0d0d;
-      --text-color: #fff;
-      --accent-color: #00ffcc;
-      --card-bg: rgba(255, 255, 255, 0.05);
-    }
-    [data-theme="light"] {
-      --bg-color: #f5f5f5;
-      --text-color: #000;
-      --accent-color: #0077ff;
-      --card-bg: rgba(0, 0, 0, 0.05);
-    }
-    body {
-      margin: 0;
-      font-family: 'Courier New', monospace;
-      background-color: var(--bg-color);
-      color: var(--text-color);
-      display: flex;
-      height: 100vh;
-      overflow: hidden;
-      transition: background 0.5s, color 0.5s;
-    }
-    .sidebar {
-      width: 250px;
-      background: #111;
-      padding: 20px;
-      border-right: 2px solid var(--accent-color);
-    }
-    [data-theme="light"] .sidebar {
-      background: #e0e0e0;
-    }
-    .time-box {
-      font-size: 18px;
-      margin-bottom: 20px;
-      color: var(--accent-color);
-    }
-    .main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      overflow-y: auto;
-      position: relative;
-      z-index: 1;
-      padding: 10px;
-    }
-    h1 {
-      font-size: 48px;
-      background: linear-gradient(90deg, #ff00ff, #00ffff, #ffcc00);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: glow 3s infinite alternate;
-    }
-    @keyframes glow {
-      from { text-shadow: 0 0 10px var(--accent-color); }
-      to { text-shadow: 0 0 30px #ff00ff; }
-    }
-    .section {
-      margin: 30px 0;
-      padding: 20px;
-      border: 1px solid #333;
-      border-radius: 10px;
-      background: var(--card-bg);
-      width: 80%;
-      transition: background 0.5s;
-    }
-    .photos img {
-      width: 200px;
-      height: auto;
-      margin: 10px;
-      border-radius: 8px;
-      border: 2px solid var(--accent-color);
-      box-shadow: 0 0 15px var(--accent-color);
-    }
-    footer {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #888;
-    }
-    .controls {
-      margin: 20px;
-    }
-    .controls button {
-      background: var(--accent-color);
-      border: none;
-      padding: 10px 20px;
-      margin: 5px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: transform 0.2s;
-    }
-    .controls button:hover {
-      transform: scale(1.1);
-    }
-    canvas#matrix {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 0;
-      background: black;
-    }
-    @media (max-width: 768px) {
-      body {
-        flex-direction: column;
-      }
-      .sidebar {
-        width: 100%;
-        border-right: none;
-        border-bottom: 2px solid var(--accent-color);
-        text-align: center;
-      }
-    }
-
-    /* Welcome Popup */
-    #welcome-popup {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.95);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 999;
-      color: #0ff;
-    }
-    #welcome-popup h1 {
-      font-size: 60px;
-      background: linear-gradient(90deg, #ff00ff, #00ffff, #ffcc00);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: glow 3s infinite alternate;
-      text-align: center;
-      margin-bottom: 30px;
-      word-break: break-word;
-    }
-    #enter-btn {
-      padding: 15px 30px;
-      font-size: 20px;
-      background: #00ffcc;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: 0.3s;
-    }
-    #enter-btn:hover {
-      background: #ff00ff;
-      color: #fff;
-    }
+    body { font-family: 'Roboto', sans-serif; }
+    .fade-in { opacity: 0; transform: translateY(20px); animation: fadeIn 1s forwards; }
+    @keyframes fadeIn { to { opacity: 1; transform: translateY(0); } }
+    .innovation-card:hover { transform: scale(1.05); transition: 0.3s; }
   </style>
 </head>
-<body>
+<body class="bg-gray-100">
 
-  <!-- Welcome Popup -->
-  <div id="welcome-popup">
-    <h1>Welcome, Ranjit Yadav!</h1>
-    <button id="enter-btn" onclick="closePopup()">Enter</button>
-  </div>
-
-  <canvas id="matrix"></canvas>
-  <div class="sidebar">
-    <div class="time-box" id="datetime"></div>
-  </div>
-  <div class="main">
-    <h1>Ranjit Yadav</h1>
-
-    <div class="controls">
-      <button onclick="toggleMusic()">🎵 Music</button>
-      <button onclick="toggleTheme()">🌙/☀️ Theme</button>
+  <!-- Header -->
+  <header class="bg-blue-600 text-white p-6 text-center">
+    <h1 class="text-4xl font-bold">Ranjit Yadav</h1>
+    <p class="mt-2">Creator of this website | Tech Enthusiast</p>
+    <div class="mt-4 space-x-4">
+      <a href="https://www.youtube.com/@ShadowMove-01" target="_blank" class="underline hover:text-gray-200">YouTube</a>
+      <a href="mailto:shadowmove160@gmail.com" class="underline hover:text-gray-200">Email</a>
     </div>
+  </header>
 
-    <div class="section">
-      <h2>About Me</h2>
-      <p>Hello! I'm Ranjit Yadav. This is my personal space with a cyber touch. 🌌</p>
+  <!-- About Me -->
+  <section class="fade-in py-16 px-6 text-center bg-white">
+    <h2 class="text-3xl font-bold mb-4">About Me</h2>
+    <p class="max-w-2xl mx-auto">
+      Hi! My name is <strong>Ranjit Yadav</strong>. I created this website to share my interests in technology, innovations, and Nepal news.
+      I am passionate about AI, space, renewable energy, and medical innovations. Here you will find updates and inspiring advancements from around the world.
+    </p>
+    <img src="https://source.unsplash.com/600x300/?technology,innovation" alt="About Me" class="mx-auto mt-6 rounded shadow-lg">
+  </section>
+
+  <!-- Innovations Section -->
+  <section class="fade-in py-16 px-6 bg-gray-50 text-center">
+    <h2 class="text-3xl font-bold mb-8">Great Innovations</h2>
+    <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+      
+      <!-- AI -->
+      <div class="innovation-card p-6 bg-white rounded shadow">
+        <img src="https://source.unsplash.com/400x200/?artificial-intelligence,robot" alt="AI" class="rounded mb-4">
+        <h3 class="font-bold text-xl mb-2">Artificial Intelligence</h3>
+        <p>AI is transforming industries by enabling machines to perform tasks that normally require human intelligence.</p>
+      </div>
+      
+      <!-- Space -->
+      <div class="innovation-card p-6 bg-white rounded shadow">
+        <img src="https://source.unsplash.com/400x200/?space,rocket" alt="Space Exploration" class="rounded mb-4">
+        <h3 class="font-bold text-xl mb-2">Space Exploration</h3>
+        <p>Space exploration pushes the boundaries of science and technology, expanding human knowledge about the universe.</p>
+      </div>
+
+      <!-- Renewable Energy -->
+      <div class="innovation-card p-6 bg-white rounded shadow">
+        <img src="https://source.unsplash.com/400x200/?solar,wind-energy" alt="Renewable Energy" class="rounded mb-4">
+        <h3 class="font-bold text-xl mb-2">Renewable Energy</h3>
+        <p>Renewable energy technologies like solar and wind are driving the transition to sustainable power sources.</p>
+      </div>
+
+      <!-- Medical -->
+      <div class="innovation-card p-6 bg-white rounded shadow">
+        <img src="https://source.unsplash.com/400x200/?medical,technology" alt="Medical Innovations" class="rounded mb-4">
+        <h3 class="font-bold text-xl mb-2">Medical Innovations</h3>
+        <p>Medical innovations improve human health through new treatments, devices, and technologies.</p>
+      </div>
+
+      <!-- Quantum Computing -->
+      <div class="innovation-card p-6 bg-white rounded shadow">
+        <img src="https://source.unsplash.com/400x200/?quantum,computer" alt="Quantum Computing" class="rounded mb-4">
+        <h3 class="font-bold text-xl mb-2">Quantum Computing</h3>
+        <p>Quantum computing promises to revolutionize computing by solving problems impossible for classical computers.</p>
+      </div>
+
+      <!-- Robotics -->
+      <div class="innovation-card p-6 bg-white rounded shadow">
+        <img src="https://source.unsplash.com/400x200/?robotics,automation" alt="Robotics" class="rounded mb-4">
+        <h3 class="font-bold text-xl mb-2">Robotics</h3>
+        <p>Robotics combines engineering and AI to create machines that assist humans in complex tasks.</p>
+      </div>
+
     </div>
+  </section>
 
-    <div class="section photos">
-      <h2>My Vibe</h2>
-      <img src="https://i.ibb.co/zGtNPrs/hacker1.jpg" alt="hacker vibe">
-      <img src="https://i.ibb.co/d63svbW/hacker2.jpg" alt="cyber style">
+  <!-- Nepal News Section -->
+  <section class="fade-in py-16 px-6 bg-white text-center">
+    <h2 class="text-3xl font-bold mb-8">Latest Nepal News</h2>
+    <div id="news-container" class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      <!-- News items injected via JS -->
     </div>
+  </section>
 
-    <div class="section" id="joke-section">
-      <h2>Joke of the Minute</h2>
-      <p id="joke">Loading a funny joke...</p>
-    </div>
+  <!-- Contact Section -->
+  <section class="fade-in py-16 px-6 bg-gray-50 text-center">
+    <h2 class="text-3xl font-bold mb-4">Contact Me</h2>
+    <p class="mb-6">You can reach me via email or YouTube</p>
+    <a href="mailto:shadowmove160@gmail.com" class="px-6 py-3 bg-blue-600 text-white rounded shadow hover:bg-blue-700 transition">Email Me</a>
+  </section>
 
-    <div class="section">
-      <h2>Contact Me</h2>
-      <p>Email: <a href="mailto:shadowmove160@gmail.com" style="color:var(--accent-color);">shadowmove160@gmail.com</a></p>
-    </div>
+  <!-- Footer -->
+  <footer class="bg-blue-600 text-white text-center py-6 mt-12">
+    <p>&copy; 2025 Ranjit Yadav. All rights reserved.</p>
+  </footer>
 
-    <footer>
-      <p>© 2025 Ranjit Yadav | All Rights Reserved</p>
-    </footer>
-  </div>
-
-  <audio id="bg-music" loop>
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-  </audio>
-
+  <!-- JavaScript for Nepal News -->
   <script>
-    const jokes = [
-      "Why do programmers hate nature? It has too many bugs!",
-      "Debugging: Being the detective in a crime movie where you are also the murderer.",
-      "Why do Java developers wear glasses? Because they don't C#!",
-      "I changed my password to 'incorrect'. So whenever I forget, it says 'Your password is incorrect.'",
-      "There are only 10 types of people in the world: those who understand binary and those who don't.",
-      "Why was the computer cold? Because it forgot to close Windows!",
-      "How many programmers does it take to change a light bulb? None, that's a hardware problem.",
-      "Hackers don't sleep, they just cache in." 
-    ];
-
-    function updateDateTime() {
-      const now = new Date();
-      document.getElementById('datetime').textContent = now.toLocaleString();
-      const randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
-      document.title = `💻 Ranjit | ${now.toLocaleTimeString()} | ${randomJoke}`;
-    }
-    setInterval(updateDateTime, 1000);
-    updateDateTime();
-
-    function updateJoke() {
-      const randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
-      document.getElementById('joke').textContent = randomJoke;
-    }
-    updateJoke();
-    setInterval(updateJoke, 60000);
-
-    function toggleMusic() {
-      const music = document.getElementById('bg-music');
-      if (music.paused) music.play(); else music.pause();
-    }
-
-    function toggleTheme() {
-      const body = document.body;
-      if (body.getAttribute('data-theme') === 'light') {
-        body.removeAttribute('data-theme');
-      } else {
-        body.setAttribute('data-theme', 'light');
+    async function fetchNepalNews() {
+      try {
+        const response = await fetch('https://newsapi.org/v2/top-headlines?country=np&apiKey=YOUR_NEWSAPI_KEY');
+        const data = await response.json();
+        const newsContainer = document.getElementById('news-container');
+        data.articles.forEach(article => {
+          const newsItem = document.createElement('div');
+          newsItem.classList.add('p-4', 'bg-gray-100', 'rounded', 'shadow', 'transition', 'hover:scale-105');
+          newsItem.innerHTML = `
+            <img src="${article.urlToImage || 'https://source.unsplash.com/400x200/?nepal'}" alt="News" class="rounded mb-2">
+            <h3 class="font-bold mb-1">${article.title}</h3>
+            <p class="text-sm mb-2">${article.description || ''}</p>
+            <a href="${article.url}" target="_blank" class="text-blue-600 underline">Read more</a>
+          `;
+          newsContainer.appendChild(newsItem);
+        });
+      } catch (error) {
+        console.error('Error fetching news:', error);
       }
     }
 
-    function closePopup() {
-      document.getElementById('welcome-popup').style.display = 'none';
-    }
-
-    // Matrix animation
-    const canvas = document.getElementById('matrix');
-    const ctx = canvas.getContext('2d');
-    canvas.height = window.innerHeight;
-    canvas.width = window.innerWidth;
-    const letters = '01';
-    const fontSize = 14;
-    const columns = canvas.width / fontSize;
-    const drops = [];
-    for (let x = 0; x < columns; x++) drops[x] = 1;
-
-    function draw() {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = '#0F0';
-      ctx.font = fontSize + 'px monospace';
-      for (let i = 0; i < drops.length; i++) {
-        const text = letters.charAt(Math.floor(Math.random() * letters.length));
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-        drops[i]++;
-      }
-    }
-    setInterval(draw, 33);
-
-    window.addEventListener('resize', () => {
-      canvas.height = window.innerHeight;
-      canvas.width = window.innerWidth;
-    });
+    fetchNepalNews();
   </script>
+
 </body>
 </html>
