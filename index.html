@@ -1,95 +1,125 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Ranjit: Game of Game - Car Edition</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ranjit's Ultimate High-End Website</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 <style>
-  body { margin: 0; overflow: hidden; }
-  canvas { display: block; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Roboto', sans-serif; background: radial-gradient(circle, #ff9ff3, #feca57, #1dd1a1); color: #fff; overflow-x: hidden; scroll-behavior: smooth; }
+a { text-decoration: none; color: inherit; }
+section { padding: 80px 20px; min-height: 100vh; transition: all 0.6s ease; }
+h1, h2, h3 { margin-bottom: 20px; text-align: center; }
+p { max-width: 600px; margin: 0 auto 20px auto; text-align: center; line-height: 1.6; }
+nav { position: fixed; top: 0; width: 100%; background: rgba(0,0,0,0.6); display: flex; justify-content: center; padding: 15px 0; z-index: 1000; transition: background 0.5s; }
+nav a { margin: 0 15px; font-weight: bold; transition: color 0.3s; }
+nav a:hover { color: #ffeb3b; }
+#home { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+#home h1 { font-size: 3em; animation: fadeInDown 2s ease forwards; }
+#home p { font-size: 1.5em; animation: fadeInUp 2s ease forwards; }
+#about, #skills, #portfolio, #contact, #paintings, #jokes, #game { background: rgba(0,0,0,0.3); border-radius: 15px; margin: 20px auto; max-width: 1000px; padding: 40px 20px; }
+.btn { display: inline-block; background: #ff6b6b; color: #fff; padding: 12px 25px; margin-top: 15px; border-radius: 50px; transition: transform 0.3s, background 0.3s; cursor: pointer; }
+.btn:hover { transform: scale(1.1); background: #feca57; }
+input, textarea { width: 80%; padding: 10px; margin: 10px 0; border-radius: 10px; border: none; }
+button { padding: 10px 20px; border: none; border-radius: 10px; background: #1dd1a1; color: #fff; cursor: pointer; transition: background 0.3s; }
+button:hover { background: #10ac84; }
+.portfolio-grid, .paintings-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 20px; }
+.portfolio-item, .painting-item { background: #ff9ff3; padding: 20px; border-radius: 15px; text-align: center; transition: transform 0.3s, box-shadow 0.3s; cursor: pointer; }
+.portfolio-item:hover, .painting-item:hover { transform: scale(1.05) rotate(-2deg); box-shadow: 0 10px 20px rgba(0,0,0,0.3); }
+#jokes p { font-size: 1.2em; text-align: center; padding: 20px; background: rgba(0,0,0,0.5); border-radius: 15px; transition: opacity 1s; }
+@keyframes fadeInDown { 0% { opacity: 0; transform: translateY(-50px); } 100% { opacity: 1; transform: translateY(0); } }
+@keyframes fadeInUp { 0% { opacity: 0; transform: translateY(50px); } 100% { opacity: 1; transform: translateY(0); } }
+#animated-bg { position: fixed; top:0; left:0; width:100%; height:100%; z-index:-1; }
+canvas { display: block; margin: 0 auto; border-radius: 15px; background: rgba(0,0,0,0.7); }
+footer { text-align: center; padding: 30px 20px; background: rgba(0,0,0,0.7); margin-top: 20px; border-radius: 15px; }
 </style>
 </head>
 <body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<canvas id="animated-bg"></canvas>
+<nav id="navbar">
+    <a href="#home">Home</a>
+    <a href="#about">About Me</a>
+    <a href="#skills">Skills</a>
+    <a href="#portfolio">Portfolio</a>
+    <a href="#paintings">Paintings</a>
+    <a href="#jokes">Jokes</a>
+    <a href="#game">Game</a>
+    <a href="#contact">Contact</a>
+</nav>
+<section id="home">
+<h1>Hi, I'm Ranjit!</h1>
+<p>Welcome to my ultra-high graphics website. Explore skills, projects, games, gadgets, paintings, and fun jokes!</p>
+<div class="btn" onclick="scrollToSection('contact')">Get in Touch</div>
+</section>
+<section id="about">
+<h2>About Me</h2>
+<p>Fun Facts About Me: I love coding, painting, and making interactive websites. I enjoy games, gadgets, and learning new tech every day!</p>
+</section>
+<section id="skills">
+<h2>Skills</h2>
+<p>Here are some skills I excel in:</p>
+<div style="display:flex; justify-content:center; flex-wrap:wrap; gap:20px;">
+<div style="background:#ff9ff3; padding:15px 25px; border-radius:10px; cursor:pointer;" onclick="alert('HTML & CSS: Creating beautiful web pages!')">HTML & CSS</div>
+<div style="background:#ff6b6b; padding:15px 25px; border-radius:10px; cursor:pointer;" onclick="alert('JavaScript: Making interactive websites!')">JavaScript</div>
+<div style="background:#feca57; padding:15px 25px; border-radius:10px; cursor:pointer;" onclick="alert('Python: Solving problems & automation!')">Python</div>
+<div style="background:#1dd1a1; padding:15px 25px; border-radius:10px; cursor:pointer;" onclick="alert('React: Modern web applications!')">React</div>
+</div>
+</section>
+<section id="portfolio">
+<h2>Gadget Showcase</h2>
+<div class="portfolio-grid" id="gadgets"></div>
+</section>
+<section id="paintings">
+<h2>Paintings Gallery</h2>
+<div class="paintings-grid" id="paintings-grid"></div>
+</section>
+<section id="jokes">
+<h2>Jokes Section</h2>
+<p id="joke-display">Loading jokes...</p>
+</section>
+<section id="game">
+<h2>Mini Game: Snake</h2>
+<canvas id="snake-game" width="400" height="400"></canvas>
+<p style="text-align:center;">Use arrow keys to play!</p>
+</section>
+<section id="contact">
+<h2>Contact Me</h2>
+<p>Email me at: <a href="mailto:shadowmove160@gmail.com">shadowmove160@gmail.com</a></p>
+<form onsubmit="submitForm(event)">
+<input type="text" placeholder="Your Name" required><br>
+<input type="email" placeholder="Your Email" required><br>
+<textarea placeholder="Your Message" rows="5" required></textarea><br>
+<button type="submit">Send Message</button>
+</form>
+</section>
+<footer>
+&copy; 2025 Ranjit Yadav | Made with ❤️
+</footer>
 <script>
-  // Scene, Camera, Renderer
-  const scene = new THREE.Scene();
-  scene.background = new THREE.Color(0x87ceeb); // Sky
-  const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-  const renderer = new THREE.WebGLRenderer({antialias:true});
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  document.body.appendChild(renderer.domElement);
+// Scroll to section
+function scrollToSection(id){ document.getElementById(id).scrollIntoView({behavior:'smooth'}); }
+// Form submit
+function submitForm(e){ e.preventDefault(); alert('Thank you! Your message has been sent.'); e.target.reset(); }
+// Navbar background change on scroll
+window.addEventListener('scroll', function(){ const nav = document.getElementById('navbar'); nav.style.background = window.scrollY > 50 ? 'rgba(0,0,0,0.9)' : 'rgba(0,0,0,0.6)'; });
 
-  const controls = new THREE.OrbitControls(camera, renderer.domElement);
+// Gadgets
+const gadgets=[]; for(let i=1;i<=50;i++){ gadgets.push({name:`Gadget ${i}`, info:`Info about Gadget ${i}`, link:`https://example.com/gadget${i}`}); }
+const gadgetsContainer=document.getElementById('gadgets'); gadgets.forEach(g=>{ const div=document.createElement('div'); div.className='portfolio-item'; div.innerHTML=`<h3>${g.name}</h3><p>${g.info}</p><a href='${g.link}' target='_blank'>Learn More</a>`; gadgetsContainer.appendChild(div); });
 
-  // Ground
-  const groundGeometry = new THREE.PlaneGeometry(200,200);
-  const groundMaterial = new THREE.MeshPhongMaterial({color: 0x228B22});
-  const ground = new THREE.Mesh(groundGeometry, groundMaterial);
-  ground.rotation.x = -Math.PI/2;
-  scene.add(ground);
+// Paintings
+const paintingsGrid=document.getElementById('paintings-grid'); for(let i=1;i<=50;i++){ const div=document.createElement('div'); div.className='painting-item'; div.innerHTML=`<h4>Painting ${i}</h4>`; paintingsGrid.appendChild(div); }
 
-  // Car (player)
-  const carGeometry = new THREE.BoxGeometry(2,1,4);
-  const carMaterial = new THREE.MeshPhongMaterial({color: 0xff0000});
-  const car = new THREE.Mesh(carGeometry, carMaterial);
-  car.position.y = 0.5;
-  scene.add(car);
+// Jokes
+const jokes=[]; for(let i=1;i<=1000;i++){ jokes.push(`Joke ${i}: This is a sample modern/old joke!`); }
+let jokeIndex=0; function showJoke(){ const el=document.getElementById('joke-display'); el.style.opacity=0; setTimeout(()=>{ el.textContent=jokes[jokeIndex]; el.style.opacity=1; jokeIndex=(jokeIndex+1)%jokes.length; },500); } showJoke(); setInterval(showJoke,30000);
 
-  // Lights
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-  scene.add(ambientLight);
-  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-  directionalLight.position.set(50,50,50);
-  scene.add(directionalLight);
+// Snake Game
+const canvas=document.getElementById('snake-game'); const ctx=canvas.getContext('2d'); const scale=20; const rows=canvas.height/scale; const cols=canvas.width/scale; let snake=[{x:Math.floor(cols/2), y:Math.floor(rows/2)}], apple={x:Math.floor(Math.random()*cols), y:Math.floor(Math.random()*rows)}, dx=1, dy=0; function draw(){ ctx.fillStyle='rgba(0,0,0,0.7)'; ctx.fillRect(0,0,canvas.width,canvas.height); ctx.fillStyle='lime'; snake.forEach(s=>ctx.fillRect(s.x*scale,s.y*scale,scale-1,scale-1)); ctx.fillStyle='red'; ctx.fillRect(apple.x*scale,apple.y*scale,scale-1,scale-1); }
+function update(){ let head={x:snake[0].x+dx,y:snake[0].y+dy}; if(head.x<0||head.x>=cols||head.y<0||head.y>=rows||snake.some(s=>s.x===head.x&&s.y===head.y)){ snake=[{x:Math.floor(cols/2),y:Math.floor(rows/2)}]; dx=1; dy=0; return; } snake.unshift(head); if(head.x===apple.x&&head.y===apple.y){ apple={x:Math.floor(Math.random()*cols),y:Math.floor(Math.random()*rows)}; }else{ snake.pop(); } draw(); }
+window.addEventListener('keydown',e=>{ if(e.key==='ArrowUp'&&dy===0){dx=0;dy=-1} if(e.key==='ArrowDown'&&dy===0){dx=0;dy=1} if(e.key==='ArrowLeft'&&dx===0){dx=-1;dy=0} if(e.key==='ArrowRight'&&dx===0){dx=1;dy=0} }); setInterval(update,150);
 
-  // Camera initial position
-  camera.position.set(0,10,15);
-  camera.lookAt(car.position);
-
-  // Controls
-  const keys = {};
-  document.addEventListener('keydown', e => keys[e.key.toLowerCase()] = true);
-  document.addEventListener('keyup', e => keys[e.key.toLowerCase()] = false);
-
-  // Car movement variables
-  let speed = 0;
-  const maxSpeed = 0.5;
-  const acceleration = 0.02;
-  const deceleration = 0.01;
-  const turnSpeed = 0.03;
-
-  function animate() {
-    requestAnimationFrame(animate);
-
-    // Forward/Backward
-    if(keys['w']) speed += acceleration;
-    else if(keys['s']) speed -= acceleration;
-    else {
-      // natural slow down
-      if(speed > 0) speed -= deceleration;
-      if(speed < 0) speed += deceleration;
-    }
-    speed = Math.max(Math.min(speed, maxSpeed), -maxSpeed);
-
-    // Turning
-    if(keys['a']) car.rotation.y += turnSpeed * (speed/maxSpeed);
-    if(keys['d']) car.rotation.y -= turnSpeed * (speed/maxSpeed);
-
-    // Move car
-    car.position.x -= Math.sin(car.rotation.y) * speed;
-    car.position.z -= Math.cos(car.rotation.y) * speed;
-
-    // Camera follow
-    camera.position.x = car.position.x + Math.sin(car.rotation.y + Math.PI/2)*10;
-    camera.position.z = car.position.z + Math.cos(car.rotation.y + Math.PI/2)*10;
-    camera.position.y = car.position.y + 6;
-    camera.lookAt(car.position);
-
-    renderer.render(scene, camera);
-  }
-  animate();
-</script>
-</body>
-</html>
+// Particle Background
+const bgCanvas=document.getElementById('animated-bg'); const bgCtx=bgCanvas.getContext('2d'); bgCanvas.width=window.innerWidth; bgCanvas.height=window.innerHeight; window.addEventListener('resize',()=>{ bgCanvas.width=window.innerWidth; bgCanvas.height=window.innerHeight; });
+const particles=[]; for(let i=0;i<200;i++){
