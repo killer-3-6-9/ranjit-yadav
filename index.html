@@ -1,189 +1,95 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Ranjit Game of Game</title>
+<title>Ranjit: Game of Game - Car Edition</title>
 <style>
-body { margin: 0; overflow: hidden; font-family: Arial; }
-canvas { display: block; }
-#ui {
-  position: absolute;
-  top: 10px; left: 10px;
-  color: white;
-  background: rgba(0,0,0,0.6);
-  padding: 10px;
-  border-radius: 8px;
-  font-size: 16px;
-}
-#title {
-  position: absolute;
-  top: 10px; right: 10px;
-  color: yellow;
-  font-weight: bold;
-  font-size: 20px;
-  background: rgba(0,0,0,0.5);
-  padding: 5px 10px;
-  border-radius: 8px;
-}
+  body { margin: 0; overflow: hidden; }
+  canvas { display: block; }
 </style>
 </head>
 <body>
-<div id="title">Ranjit Game of Game</div>
-<div id="ui">
-  Loop iteration: <span id="loopCount">0</span><br>
-  Mission Progress: <span id="missionStatus">Collect all green items!</span>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script>
-// --- Scene Setup ---
-const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x87ceeb);
+  // Scene, Camera, Renderer
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x87ceeb); // Sky
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+  const renderer = new THREE.WebGLRenderer({antialias:true});
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
 
-// Camera
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+  const controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-// Renderer
-const renderer = new THREE.WebGLRenderer({antialias:true});
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
+  // Ground
+  const groundGeometry = new THREE.PlaneGeometry(200,200);
+  const groundMaterial = new THREE.MeshPhongMaterial({color: 0x228B22});
+  const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+  ground.rotation.x = -Math.PI/2;
+  scene.add(ground);
 
-// Floor
-const floorGeo = new THREE.PlaneGeometry(400,400);
-const floorMat = new THREE.MeshStandardMaterial({color:0x333333});
-const floor = new THREE.Mesh(floorGeo,floorMat);
-floor.rotation.x = -Math.PI/2;
-scene.add(floor);
+  // Car (player)
+  const carGeometry = new THREE.BoxGeometry(2,1,4);
+  const carMaterial = new THREE.MeshPhongMaterial({color: 0xff0000});
+  const car = new THREE.Mesh(carGeometry, carMaterial);
+  car.position.y = 0.5;
+  scene.add(car);
 
-// Buildings Grid
-for(let i=-80;i<=80;i+=20){
-  for(let j=-80;j<=80;j+=20){
-    const boxGeo = new THREE.BoxGeometry(10, Math.random()*10+5, 10);
-    const boxMat = new THREE.MeshStandardMaterial({color:0x555555});
-    const building = new THREE.Mesh(boxGeo, boxMat);
-    building.position.set(i, boxGeo.parameters.height/2, j);
-    scene.add(building);
-  }
-}
+  // Lights
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+  scene.add(ambientLight);
+  const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+  directionalLight.position.set(50,50,50);
+  scene.add(directionalLight);
 
-// Lighting
-scene.add(new THREE.AmbientLight(0xffffff,0.5));
-const dirLight = new THREE.DirectionalLight(0xffffff,0.8);
-dirLight.position.set(50,50,50);
-scene.add(dirLight);
-
-// --- Player Car ---
-const carGeo = new THREE.BoxGeometry(2,1,4);
-const carMat = new THREE.MeshStandardMaterial({color:0xff0000});
-const car = new THREE.Mesh(carGeo,carMat);
-car.position.set(0,0.5,0);
-scene.add(car);
-
-// --- Mission Items ---
-const missionItems = [];
-for(let i=0;i<5;i++){
-  const itemGeo = new THREE.CylinderGeometry(1,1,0.2,32);
-  const itemMat = new THREE.MeshStandardMaterial({color:0x00ff00});
-  const item = new THREE.Mesh(itemGeo,itemMat);
-  item.position.set((Math.random()*140-70),0.1,(Math.random()*140-70));
-  scene.add(item);
-  missionItems.push(item);
-}
-
-// --- NPC Enemies ---
-const npcs = [];
-for(let i=0;i<3;i++){
-  const npcGeo = new THREE.BoxGeometry(2,1,2);
-  const npcMat = new THREE.MeshStandardMaterial({color:0x0000ff});
-  const npc = new THREE.Mesh(npcGeo,npcMat);
-  npc.position.set(Math.random()*140-70,0.5,Math.random()*140-70);
-  scene.add(npc);
-  npcs.push(npc);
-}
-
-// --- Controls ---
-let moveForward=false, moveBackward=false, moveLeft=false, moveRight=false;
-const speed=0.5;
-document.addEventListener('keydown', e=>{
-  if(e.code==='KeyW') moveForward=true;
-  if(e.code==='KeyS') moveBackward=true;
-  if(e.code==='KeyA') moveLeft=true;
-  if(e.code==='KeyD') moveRight=true;
-});
-document.addEventListener('keyup', e=>{
-  if(e.code==='KeyW') moveForward=false;
-  if(e.code==='KeyS') moveBackward=false;
-  if(e.code==='KeyA') moveLeft=false;
-  if(e.code==='KeyD') moveRight=false;
-});
-
-// --- Time Loop ---
-let loopIteration=0;
-const loopTime = 30000; // 30 sec
-let loopTimer;
-
-function startLoop(){
-  loopIteration++;
-  document.getElementById('loopCount').textContent = loopIteration;
-  car.position.set(0,0.5,0);
-  missionItems.forEach(item=>item.visible=true);
-  document.getElementById('missionStatus').textContent = "Collect all green items!";
-  loopTimer = setTimeout(startLoop, loopTime);
-}
-startLoop();
-
-// --- Animate ---
-function animate(){
-  requestAnimationFrame(animate);
-
-  // Move car
-  if(moveForward) car.position.z -= speed;
-  if(moveBackward) car.position.z += speed;
-  if(moveLeft) car.position.x -= speed;
-  if(moveRight) car.position.x += speed;
-
-  // Camera follows car
-  camera.position.set(car.position.x, car.position.y+5, car.position.z+10);
+  // Camera initial position
+  camera.position.set(0,10,15);
   camera.lookAt(car.position);
 
-  // NPC simple patrol
-  npcs.forEach((npc,i)=>{
-    npc.position.x += Math.sin(Date.now()*0.001+i)*0.02;
-    npc.position.z += Math.cos(Date.now()*0.001+i)*0.02;
-    // Collision with car
-    if(car.position.distanceTo(npc.position)<2){
-      document.getElementById('missionStatus').textContent = "💥 Hit NPC! Loop resets!";
-      clearTimeout(loopTimer);
-      startLoop();
-    }
-  });
+  // Controls
+  const keys = {};
+  document.addEventListener('keydown', e => keys[e.key.toLowerCase()] = true);
+  document.addEventListener('keyup', e => keys[e.key.toLowerCase()] = false);
 
-  // Mission collection
-  let collected = 0;
-  missionItems.forEach(item=>{
-    if(item.visible && car.position.distanceTo(item.position)<2){
-      item.visible=false;
-      collected++;
-    }
-  });
+  // Car movement variables
+  let speed = 0;
+  const maxSpeed = 0.5;
+  const acceleration = 0.02;
+  const deceleration = 0.01;
+  const turnSpeed = 0.03;
 
-  if(collected === missionItems.length){
-    document.getElementById('missionStatus').textContent = "🎉 All items collected! Loop stopped!";
-    clearTimeout(loopTimer);
+  function animate() {
+    requestAnimationFrame(animate);
+
+    // Forward/Backward
+    if(keys['w']) speed += acceleration;
+    else if(keys['s']) speed -= acceleration;
+    else {
+      // natural slow down
+      if(speed > 0) speed -= deceleration;
+      if(speed < 0) speed += deceleration;
+    }
+    speed = Math.max(Math.min(speed, maxSpeed), -maxSpeed);
+
+    // Turning
+    if(keys['a']) car.rotation.y += turnSpeed * (speed/maxSpeed);
+    if(keys['d']) car.rotation.y -= turnSpeed * (speed/maxSpeed);
+
+    // Move car
+    car.position.x -= Math.sin(car.rotation.y) * speed;
+    car.position.z -= Math.cos(car.rotation.y) * speed;
+
+    // Camera follow
+    camera.position.x = car.position.x + Math.sin(car.rotation.y + Math.PI/2)*10;
+    camera.position.z = car.position.z + Math.cos(car.rotation.y + Math.PI/2)*10;
+    camera.position.y = car.position.y + 6;
+    camera.lookAt(car.position);
+
+    renderer.render(scene, camera);
   }
-
-  renderer.render(scene,camera);
-}
-
-animate();
-
-// --- Window Resize ---
-window.addEventListener('resize', ()=>{
-  camera.aspect = window.innerWidth/window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-});
+  animate();
 </script>
 </body>
 </html>
