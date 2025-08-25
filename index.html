@@ -1,511 +1,189 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ranjit Business — Great Things</title>
-  <meta name="description" content="Ranjit Business — Great innovations, services, and a touch of fun. Learn, explore, and contact us." />
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root { --ring: 36 100% 50%; }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji'; }
-    .glass { backdrop-filter: blur(10px); background: rgba(255,255,255,0.08); }
-    .shine { position: relative; overflow: hidden; }
-    .shine:after { content:''; position:absolute; top:-120%; left:-120%; width:240%; height:240%; transform:rotate(25deg); background:linear-gradient(90deg, transparent, rgba(255,255,255,.15), transparent); animation:shine 8s linear infinite; }
-    @keyframes shine { 0%{transform:translateX(-120%) rotate(25deg);} 100%{transform:translateX(120%) rotate(25deg);} }
-    .floaty { animation: floaty 6s ease-in-out infinite; }
-    @keyframes floaty { 0%,100%{ transform: translateY(0);} 50%{ transform: translateY(-8px);} }
-    .card-hover { transition: transform .25s ease, box-shadow .25s ease; }
-    .card-hover:hover { transform: translateY(-4px) scale(1.01); box-shadow: 0 20px 35px rgba(0,0,0,.08); }
-  </style>
+<meta charset="UTF-8">
+<title>Ranjit Game of Game</title>
+<style>
+body { margin: 0; overflow: hidden; font-family: Arial; }
+canvas { display: block; }
+#ui {
+  position: absolute;
+  top: 10px; left: 10px;
+  color: white;
+  background: rgba(0,0,0,0.6);
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 16px;
+}
+#title {
+  position: absolute;
+  top: 10px; right: 10px;
+  color: yellow;
+  font-weight: bold;
+  font-size: 20px;
+  background: rgba(0,0,0,0.5);
+  padding: 5px 10px;
+  border-radius: 8px;
+}
+</style>
 </head>
-<body class="bg-gray-50 text-gray-900">
-  <!-- NAVBAR -->
-  <header class="fixed top-0 inset-x-0 z-40 bg-white/80 backdrop-blur border-b border-gray-200">
-    <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <a href="#home" class="font-bold text-xl">Ranjit <span class="text-indigo-600">Business</span></a>
-      <ul class="hidden md:flex space-x-6 text-sm">
-        <li><a href="#about" class="hover:text-indigo-600">About</a></li>
-        <li><a href="#services" class="hover:text-indigo-600">Services</a></li>
-        <li><a href="#innovations" class="hover:text-indigo-600">Great Innovations</a></li>
-        <li><a href="#future-money" class="hover:text-indigo-600">Future Money</a></li>
-        <li><a href="#nepal-links" class="hover:text-indigo-600">Nepal Links</a></li>
-        <li><a href="#jokes" class="hover:text-indigo-600">Jokes</a></li>
-        <li><a href="#contact" class="hover:text-indigo-600">Contact</a></li>
-      </ul>
-      <a href="#contact" class="hidden md:inline-flex items-center px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 transition">Get in touch</a>
-    </nav>
-  </header>
+<body>
+<div id="title">Ranjit Game of Game</div>
+<div id="ui">
+  Loop iteration: <span id="loopCount">0</span><br>
+  Mission Progress: <span id="missionStatus">Collect all green items!</span>
+</div>
 
-  <!-- HERO -->
-  <section id="home" class="pt-28 pb-20 bg-gradient-to-b from-indigo-50 to-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-10 items-center">
-      <div>
-        <p class="uppercase tracking-widest text-xs text-indigo-600 font-semibold">Welcome to</p>
-        <h1 class="mt-2 text-4xl sm:text-5xl font-extrabold leading-tight">Ranjit Business — <span class="text-indigo-600">Great Things</span> for People & Growth</h1>
-        <p class="mt-4 text-gray-600">We craft modern solutions, share world-changing innovations, and keep things fun with fresh jokes every 60 seconds. Learn fast, smile often, build better.</p>
-        <div class="mt-6 flex flex-wrap gap-3">
-          <a href="#services" class="px-5 py-3 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 transition">Explore Services</a>
-          <a href="#innovations" class="px-5 py-3 rounded-xl border border-gray-300 hover:border-indigo-600 hover:text-indigo-600 transition">Great Innovations</a>
-        </div>
-        <div class="mt-8 grid grid-cols-3 gap-4 text-center">
-          <div class="p-4 rounded-2xl bg-white border border-gray-200 shadow-sm card-hover">
-            <div class="text-3xl font-bold" data-counter="128">0</div>
-            <p class="text-gray-500 text-sm mt-1">Happy Clients</p>
-          </div>
-          <div class="p-4 rounded-2xl bg-white border border-gray-200 shadow-sm card-hover">
-            <div class="text-3xl font-bold" data-counter="54">0</div>
-            <p class="text-gray-500 text-sm mt-1">Projects</p>
-          </div>
-          <div class="p-4 rounded-2xl bg-white border border-gray-200 shadow-sm card-hover">
-            <div class="text-3xl font-bold" data-counter="12">0</div>
-            <p class="text-gray-500 text-sm mt-1">Awards</p>
-          </div>
-        </div>
-      </div>
-      <div class="relative">
-        <div class="absolute -inset-6 bg-gradient-to-r from-indigo-200 to-pink-200 rounded-3xl blur-2xl opacity-50"></div>
-        <div class="relative bg-white rounded-3xl border border-gray-200 shadow-xl p-6 lg:p-10 shine">
-          <h3 class="text-xl font-semibold">Today’s Smile 😄</h3>
-          <p id="hero-joke" class="mt-3 text-gray-700">Loading a fresh joke...</p>
-          <p class="mt-4 text-xs text-gray-400">Auto-updates every 60 seconds.</p>
-        </div>
-        <img alt="abstract" class="floaty mt-8 w-full rounded-3xl border border-gray-200 shadow-xl" src="https://images.unsplash.com/photo-1529101091764-c3526daf38fe?q=80&w=1600&auto=format&fit=crop" />
-      </div>
-    </div>
-  </section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js"></script>
 
-  <!-- ABOUT -->
-  <section id="about" class="py-20 bg-white">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="grid md:grid-cols-2 gap-10 items-center">
-        <div>
-          <h2 class="text-3xl font-bold">About Ranjit Business</h2>
-          <p class="mt-4 text-gray-600">We help people and brands turn ideas into products. Our philosophy is simple: <span class="font-semibold">short & sweet learning</span>, <span class="font-semibold">practical innovation</span>, and <span class="font-semibold">delightful user experience</span>. We share links to great innovations so anyone can explore deeper.</p>
-          <ul class="mt-6 space-y-2 text-gray-700 list-disc list-inside">
-            <li>Strategy & brand storytelling</li>
-            <li>Modern websites & landing pages</li>
-            <li>Automation & productivity systems</li>
-          </ul>
-        </div>
-        <div class="bg-gray-50 rounded-3xl border border-gray-200 p-8 shadow-sm">
-          <h3 class="text-xl font-semibold">Why clients choose us</h3>
-          <div class="mt-4 grid sm:grid-cols-2 gap-4">
-            <div class="p-4 rounded-2xl bg-white border border-gray-200 card-hover">
-              <p class="font-semibold">Fast & Friendly</p>
-              <p class="text-gray-600 text-sm mt-1">Clear process, quick delivery, human touch.</p>
-            </div>
-            <div class="p-4 rounded-2xl bg-white border border-gray-200 card-hover">
-              <p class="font-semibold">Design that works</p>
-              <p class="text-gray-600 text-sm mt-1">Clean aesthetics with business results.</p>
-            </div>
-            <div class="p-4 rounded-2xl bg-white border border-gray-200 card-hover">
-              <p class="font-semibold">Learn & Grow</p>
-              <p class="text-gray-600 text-sm mt-1">We link resources so you can go deeper.</p>
-            </div>
-            <div class="p-4 rounded-2xl bg-white border border-gray-200 card-hover">
-              <p class="font-semibold">Honest Pricing</p>
-              <p class="text-gray-600 text-sm mt-1">Value-first packages for all sizes.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<script>
+// --- Scene Setup ---
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x87ceeb);
 
-  <!-- SERVICES -->
-  <section id="services" class="py-20 bg-gradient-to-b from-white to-indigo-50">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-end justify-between">
-        <h2 class="text-3xl font-bold">Services</h2>
-        <p class="text-sm text-gray-500">Custom plans available</p>
-      </div>
-      <div class="mt-8 grid md:grid-cols-3 gap-6">
-        <div class="p-6 rounded-2xl bg-white border border-gray-200 shadow-sm card-hover">
-          <h3 class="font-semibold text-lg">Website In A Week</h3>
-          <p class="text-gray-600 mt-2">Launch a fast, beautiful site with SEO in 7 days.</p>
-          <ul class="mt-3 text-sm text-gray-700 space-y-1 list-disc list-inside">
-            <li>Responsive design</li>
-            <li>Basic SEO setup</li>
-            <li>1 revision round</li>
-          </ul>
-          <a href="#contact" class="inline-block mt-4 px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700">Get Quote</a>
-        </div>
-        <div class="p-6 rounded-2xl bg-white border border-gray-200 shadow-sm card-hover">
-          <h3 class="font-semibold text-lg">Brand & Content</h3>
-          <p class="text-gray-600 mt-2">Messaging, visual identity & content calendars.</p>
-          <ul class="mt-3 text-sm text-gray-700 space-y-1 list-disc list-inside">
-            <li>Logo & palette</li>
-            <li>Copywriting</li>
-            <li>Social templates</li>
-          </ul>
-          <a href="#contact" class="inline-block mt-4 px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700">Get Quote</a>
-        </div>
-        <div class="p-6 rounded-2xl bg-white border border-gray-200 shadow-sm card-hover">
-          <h3 class="font-semibold text-lg">Automation Boost</h3>
-          <p class="text-gray-600 mt-2">Save hours with forms, sheets & workflow apps.</p>
-          <ul class="mt-3 text-sm text-gray-700 space-y-1 list-disc list-inside">
-            <li>No-code tools</li>
-            <li>CRM setup</li>
-            <li>Analytics</li>
-          </ul>
-          <a href="#contact" class="inline-block mt-4 px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700">Get Quote</a>
-        </div>
-      </div>
-    </div>
-  </section>
+// Camera
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
 
-  <!-- GREAT INNOVATIONS -->
-  <section id="innovations" class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="md:flex md:items-end md:justify-between">
-        <div>
-          <h2 class="text-3xl font-bold">Great Innovations of People</h2>
-          <p class="mt-3 text-gray-600">Short & sweet intros with links to learn more. Use search & tags to explore.</p>
-        </div>
-        <div class="mt-6 md:mt-0 flex gap-3 items-center">
-          <input id="innovations-search" type="text" placeholder="Search innovations..." class="w-64 px-4 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-          <button id="reset-btn" class="px-4 py-2 rounded-xl border border-gray-300 hover:border-indigo-600 hover:text-indigo-600">Reset</button>
-        </div>
-      </div>
+// Renderer
+const renderer = new THREE.WebGLRenderer({antialias:true});
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
 
-      <div id="tags" class="mt-4 flex flex-wrap gap-2 text-sm"></div>
-      <div id="innovations-grid" class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-      <p id="innovations-count" class="mt-4 text-sm text-gray-500"></p>
-    </div>
-  </section>
+// Floor
+const floorGeo = new THREE.PlaneGeometry(400,400);
+const floorMat = new THREE.MeshStandardMaterial({color:0x333333});
+const floor = new THREE.Mesh(floorGeo,floorMat);
+floor.rotation.x = -Math.PI/2;
+scene.add(floor);
 
-  <!-- JOKES -->
-  <section id="jokes" class="py-20 bg-gradient-to-b from-indigo-50 to-white">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="text-3xl font-bold">60-Second Jokes Zone</h2>
-      <p class="mt-3 text-gray-600">A new short & sweet joke appears every minute. Keep smiling!</p>
-      <div class="mt-8 p-8 rounded-3xl bg-white border border-gray-200 shadow-sm glass">
-        <p id="joke" class="text-xl">Loading jokes...</p>
-        <p class="mt-3 text-xs text-gray-400">Auto-refreshes every 60s • Tap to skip</p>
-      </div>
-    </div>
-  </section>
+// Buildings Grid
+for(let i=-80;i<=80;i+=20){
+  for(let j=-80;j<=80;j+=20){
+    const boxGeo = new THREE.BoxGeometry(10, Math.random()*10+5, 10);
+    const boxMat = new THREE.MeshStandardMaterial({color:0x555555});
+    const building = new THREE.Mesh(boxGeo, boxMat);
+    building.position.set(i, boxGeo.parameters.height/2, j);
+    scene.add(building);
+  }
+}
 
-  <!-- FUTURE MONEY / VIDEOS -->
-  <section id="future-money" class="py-20 bg-white">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-end justify-between gap-6 flex-wrap">
-        <div>
-          <h2 class="text-3xl font-bold">Future Money: Bitcoin, Mining & More</h2>
-          <p class="mt-3 text-gray-600">Curated videos on Bitcoin, blockchain, mining, and the future of money. Click any thumbnail to play.</p>
-        </div>
-        <div class="flex items-center gap-3">
-          <input id="video-search" type="text" placeholder="Search videos..." class="w-64 px-4 py-2 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500" />
-          <button id="video-reset" class="px-4 py-2 rounded-xl border border-gray-300 hover:border-indigo-600 hover:text-indigo-600">Reset</button>
-        </div>
-      </div>
+// Lighting
+scene.add(new THREE.AmbientLight(0xffffff,0.5));
+const dirLight = new THREE.DirectionalLight(0xffffff,0.8);
+dirLight.position.set(50,50,50);
+scene.add(dirLight);
 
-      <div class="mt-8 grid lg:grid-cols-3 gap-6">
-        <div class="lg:col-span-2">
-          <div class="relative w-full rounded-2xl overflow-hidden border border-gray-200 shadow-sm bg-black" style="padding-top:56.25%">
-            <iframe id="video-player" class="absolute inset-0 w-full h-full" src="https://www.youtube-nocookie.com/embed/bBC-nXj3Ng4" title="Video Player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          </div>
-          <p id="video-title" class="mt-3 text-sm text-gray-600">Now playing: How Bitcoin Works (3Blue1Brown)</p>
-        </div>
-        <div>
-          <div id="video-list" class="grid sm:grid-cols-2 lg:grid-cols-1 gap-4 max-h-[28rem] overflow-auto pr-1"></div>
-          <p id="video-count" class="mt-3 text-xs text-gray-500"></p>
-        </div>
-      </div>
-    </div>
-  </section>
+// --- Player Car ---
+const carGeo = new THREE.BoxGeometry(2,1,4);
+const carMat = new THREE.MeshStandardMaterial({color:0xff0000});
+const car = new THREE.Mesh(carGeo,carMat);
+car.position.set(0,0.5,0);
+scene.add(car);
 
-  <!-- NEPAL LINKS (auto-rotating) -->
-  <section id="nepal-links" class="py-20 bg-gradient-to-b from-white to-indigo-50">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl font-bold">Regular Nepal Links</h2>
-      <p class="mt-3 text-gray-600">Useful Nepal sites rotate below every 30 seconds. Click to open in a new tab.</p>
+// --- Mission Items ---
+const missionItems = [];
+for(let i=0;i<5;i++){
+  const itemGeo = new THREE.CylinderGeometry(1,1,0.2,32);
+  const itemMat = new THREE.MeshStandardMaterial({color:0x00ff00});
+  const item = new THREE.Mesh(itemGeo,itemMat);
+  item.position.set((Math.random()*140-70),0.1,(Math.random()*140-70));
+  scene.add(item);
+  missionItems.push(item);
+}
 
-      <div class="mt-6 p-6 rounded-2xl bg-white border border-gray-200 shadow-sm flex items-center justify-between gap-4">
-        <div>
-          <p class="text-sm text-gray-500">Now showing</p>
-          <a id="np-link" href="#" target="_blank" rel="noopener noreferrer" class="block text-lg font-semibold text-indigo-700 underline">Loading...</a>
-          <p id="np-desc" class="text-gray-600 text-sm mt-1"></p>
-        </div>
-        <button id="np-skip" class="px-4 py-2 rounded-xl border border-gray-300 hover:border-indigo-600 hover:text-indigo-600">Next Link</button>
-      </div>
+// --- NPC Enemies ---
+const npcs = [];
+for(let i=0;i<3;i++){
+  const npcGeo = new THREE.BoxGeometry(2,1,2);
+  const npcMat = new THREE.MeshStandardMaterial({color:0x0000ff});
+  const npc = new THREE.Mesh(npcGeo,npcMat);
+  npc.position.set(Math.random()*140-70,0.5,Math.random()*140-70);
+  scene.add(npc);
+  npcs.push(npc);
+}
 
-      <div id="np-tags" class="mt-4 flex flex-wrap gap-2 text-xs"></div>
-    </div>
-  </section>
+// --- Controls ---
+let moveForward=false, moveBackward=false, moveLeft=false, moveRight=false;
+const speed=0.5;
+document.addEventListener('keydown', e=>{
+  if(e.code==='KeyW') moveForward=true;
+  if(e.code==='KeyS') moveBackward=true;
+  if(e.code==='KeyA') moveLeft=true;
+  if(e.code==='KeyD') moveRight=true;
+});
+document.addEventListener('keyup', e=>{
+  if(e.code==='KeyW') moveForward=false;
+  if(e.code==='KeyS') moveBackward=false;
+  if(e.code==='KeyA') moveLeft=false;
+  if(e.code==='KeyD') moveRight=false;
+});
 
-  <!-- TESTIMONIALS -->
-  <section class="py-20 bg-white">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="text-3xl font-bold text-center">What People Say</h2>
-      <div class="mt-8 grid md:grid-cols-3 gap-6">
-        <figure class="p-6 rounded-2xl bg-gray-50 border border-gray-200 shadow-sm">
-          <blockquote class="text-gray-700">“Clean design, clear process, and quick launch. Loved it.”</blockquote>
-          <figcaption class="mt-3 text-sm text-gray-500">— Priya S.</figcaption>
-        </figure>
-        <figure class="p-6 rounded-2xl bg-gray-50 border border-gray-200 shadow-sm">
-          <blockquote class="text-gray-700">“Our site went live in a week and leads doubled.”</blockquote>
-          <figcaption class="mt-3 text-sm text-gray-500">— Aman K.</figcaption>
-        </figure>
-        <figure class="p-6 rounded-2xl bg-gray-50 border border-gray-200 shadow-sm">
-          <blockquote class="text-gray-700">“Best part? They teach while they build.”</blockquote>
-          <figcaption class="mt-3 text-sm text-gray-500">— Saloni R.</figcaption>
-        </figure>
-      </div>
-    </div>
-  </section>
+// --- Time Loop ---
+let loopIteration=0;
+const loopTime = 30000; // 30 sec
+let loopTimer;
 
-  <!-- CONTACT -->
-  <section id="contact" class="py-20 bg-gray-50 border-t border-gray-200">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="bg-white rounded-3xl border border-gray-200 p-8 shadow-sm">
-        <h2 class="text-3xl font-bold">Contact</h2>
-        <p class="mt-3 text-gray-600">Have a project in mind? Let’s build something great.</p>
-        <form class="mt-6 grid sm:grid-cols-2 gap-4" action="mailto:shadowmove160@gmail.com" method="post" enctype="text/plain">
-          <input required class="px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Your name" name="name" />
-          <input required type="email" class="px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Email" name="email" />
-          <input class="sm:col-span-2 px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500" placeholder="Subject" name="subject" />
-          <textarea required class="sm:col-span-2 px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500" rows="5" placeholder="Tell us about your project..." name="message"></textarea>
-          <button class="sm:col-span-2 px-5 py-3 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700">Send Message</button>
-        </form>
-        <p class="mt-4 text-sm text-gray-500">Or email directly: <a class="text-indigo-600 underline" href="mailto:shadowmove160@gmail.com">shadowmove160@gmail.com</a></p>
-      </div>
-    </div>
-  </section>
+function startLoop(){
+  loopIteration++;
+  document.getElementById('loopCount').textContent = loopIteration;
+  car.position.set(0,0.5,0);
+  missionItems.forEach(item=>item.visible=true);
+  document.getElementById('missionStatus').textContent = "Collect all green items!";
+  loopTimer = setTimeout(startLoop, loopTime);
+}
+startLoop();
 
-  <footer class="py-10 text-center text-sm text-gray-500">© <span id="year"></span> Ranjit Business. Built with love, learning, and laughs.</footer>
+// --- Animate ---
+function animate(){
+  requestAnimationFrame(animate);
 
-  <!-- DATA & SCRIPTS -->
-  <script>
-    // ====== JOKES (add more easily) ======
-    const JOKES = [
-      "Why did the web developer quit? Because they didn't get arrays.",
-      "I told my computer I needed a break, and it said: 'No problem — I'll go to sleep.'",
-      "Parallel lines have so much in common. It's a shame they'll never meet.",
-      "Why don't programmers like nature? It has too many bugs.",
-      "I would tell you a UDP joke, but you might not get it.",
-      "Why did the scarecrow get promoted? He was outstanding in his field.",
-      "I asked the CSS to be more specific. It said: 'IDK'.",
-      "What do you call 8 hobbits? A hobbyte.",
-      "I would tell you a construction joke, but I'm still working on it.",
-      "Why did the function break up? Too many arguments.",
-      "What do you call fake spaghetti? An impasta.",
-      "Why was 6 afraid of 7? Because 7 8 9.",
-      "My SQL query walked into a bar, but it couldn't find a table.",
-      "Why do bees have sticky hair? They use honeycombs.",
-      "I told a joke about a roof — it went over everyone's head.",
-      "Debugging: Being the detective in a crime movie where you are also the murderer.",
-      "How do you comfort a JavaScript bug? You console it.",
-      "I made a pencil with two erasers. It was pointless.",
-      "What do you call a belt made of watches? A waist of time.",
-      "Why did the math book look sad? Too many problems.",
-    ];
+  // Move car
+  if(moveForward) car.position.z -= speed;
+  if(moveBackward) car.position.z += speed;
+  if(moveLeft) car.position.x -= speed;
+  if(moveRight) car.position.x += speed;
 
-    let jokeIndex = 0;
-    function showJoke() {
-      const el = document.getElementById('joke');
-      const hero = document.getElementById('hero-joke');
-      const joke = JOKES[jokeIndex % JOKES.length];
-      if (el) el.textContent = joke;
-      if (hero) hero.textContent = joke;
-      jokeIndex++;
+  // Camera follows car
+  camera.position.set(car.position.x, car.position.y+5, car.position.z+10);
+  camera.lookAt(car.position);
+
+  // NPC simple patrol
+  npcs.forEach((npc,i)=>{
+    npc.position.x += Math.sin(Date.now()*0.001+i)*0.02;
+    npc.position.z += Math.cos(Date.now()*0.001+i)*0.02;
+    // Collision with car
+    if(car.position.distanceTo(npc.position)<2){
+      document.getElementById('missionStatus').textContent = "💥 Hit NPC! Loop resets!";
+      clearTimeout(loopTimer);
+      startLoop();
     }
-    setInterval(showJoke, 60000); // 60 seconds
-    document.addEventListener('DOMContentLoaded', showJoke);
-    document.getElementById('jokes').addEventListener('click', showJoke); // tap to skip
+  });
 
-    // ====== VIDEOS (YouTube IDs) ======
-    const VIDEOS = [
-      { title: 'How Bitcoin Works (3Blue1Brown)', id: 'bBC-nXj3Ng4', tags: ['bitcoin','education'] },
-      { title: 'Bitcoin Mining Explained', id: 'Lx9zgZCMqXE', tags: ['mining','bitcoin'] },
-      { title: 'Blockchain Basics', id: 'SSo_EIwHSd4', tags: ['blockchain'] },
-      { title: 'Future of Money — Overview', id: 'DyAu2u3T9cQ', tags: ['future','economy'] },
-      { title: 'What is Cryptocurrency?', id: '2B7cER6R2xA', tags: ['crypto'] },
-      { title: 'Proof of Work vs Proof of Stake', id: '3EUuKcE2s2I', tags: ['consensus'] },
-    ];
-
-    const videoListEl = document.getElementById('video-list');
-    const videoPlayer = document.getElementById('video-player');
-    const videoTitle = document.getElementById('video-title');
-    const videoCount = document.getElementById('video-count');
-    const videoSearch = document.getElementById('video-search');
-
-    function renderVideos(list){
-      videoListEl.innerHTML = '';
-      list.forEach(v => {
-        const card = document.createElement('button');
-        card.className = 'text-left p-3 rounded-xl border border-gray-200 bg-white hover:border-indigo-600 card-hover';
-        card.innerHTML = `
-          <div class="flex gap-3">
-            <img class="w-20 h-12 rounded-lg object-cover border" src="https://img.youtube.com/vi/${v.id}/hqdefault.jpg" alt="${v.title}">
-            <div>
-              <p class="text-sm font-semibold line-clamp-2">${v.title}</p>
-              <div class="mt-1 flex flex-wrap gap-1">${(v.tags||[]).map(t=>`<span class='px-2 py-0.5 text-[10px] rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100'>${t}</span>`).join('')}</div>
-            </div>
-          </div>`;
-        card.onclick = () => {
-          videoPlayer.src = `https://www.youtube-nocookie.com/embed/${v.id}`;
-          videoTitle.textContent = `Now playing: ${v.title}`;
-          window.scrollTo({ top: document.getElementById('future-money').offsetTop - 80, behavior: 'smooth' });
-        };
-        videoListEl.appendChild(card);
-      });
-      videoCount.textContent = `${list.length} shown • ${VIDEOS.length} total`;
+  // Mission collection
+  let collected = 0;
+  missionItems.forEach(item=>{
+    if(item.visible && car.position.distanceTo(item.position)<2){
+      item.visible=false;
+      collected++;
     }
+  });
 
-    renderVideos(VIDEOS);
-    videoSearch.addEventListener('input', (e)=>{
-      const q = e.target.value.toLowerCase();
-      const f = VIDEOS.filter(v => (v.title + ' ' + (v.tags||[]).join(' ')).toLowerCase().includes(q));
-      renderVideos(f);
-    });
-    document.getElementById('video-reset').addEventListener('click', ()=>{ videoSearch.value=''; renderVideos(VIDEOS); });
+  if(collected === missionItems.length){
+    document.getElementById('missionStatus').textContent = "🎉 All items collected! Loop stopped!";
+    clearTimeout(loopTimer);
+  }
 
-    // ====== NEPAL LINKS (rotating) ======
-    const NEPAL_LINKS = [
-      { url: 'https://www.nepalrastrabank.gov.np/', label: 'Nepal Rastra Bank — Official', desc: 'Monetary policy, exchange rates, publications.', tags: ['finance','gov'] },
-      { url: 'https://nepalstock.com.np/', label: 'NEPSE — Nepal Stock Exchange', desc: 'Market data, indices, listed companies.', tags: ['markets'] },
-      { url: 'https://cbs.gov.np/', label: 'Central Bureau of Statistics', desc: 'Official statistics and reports.', tags: ['data','gov'] },
-      { url: 'https://www.mof.gov.np/', label: 'Ministry of Finance (Nepal)', desc: 'Budget, notices, economic updates.', tags: ['gov'] },
-      { url: 'https://www.ird.gov.np/', label: 'Inland Revenue Department', desc: 'Tax info and online services.', tags: ['tax'] },
-      { url: 'https://kathmandupost.com/', label: 'The Kathmandu Post', desc: 'News and analysis.', tags: ['news'] },
-      { url: 'https://setopati.com/', label: 'Setopati', desc: 'Nepal news and opinions.', tags: ['news'] },
-    ];
+  renderer.render(scene,camera);
+}
 
-    const npLink = document.getElementById('np-link');
-    const npDesc = document.getElementById('np-desc');
-    const npSkip = document.getElementById('np-skip');
-    const npTags = document.getElementById('np-tags');
-    let npIndex = 0;
-    function renderNepalTags(){
-      npTags.innerHTML = '';
-      const allTags = Array.from(new Set(NEPAL_LINKS.flatMap(l=>l.tags||[])));
-      allTags.forEach(t=>{
-        const span = document.createElement('span');
-        span.className = 'px-2 py-0.5 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100';
-        span.textContent = t;
-        npTags.appendChild(span);
-      });
-    }
-    function showNepalLink(){
-      const item = NEPAL_LINKS[npIndex % NEPAL_LINKS.length];
-      npLink.href = item.url;
-      npLink.textContent = item.label;
-      npDesc.textContent = item.desc || '';
-      npIndex++;
-    }
-    renderNepalTags();
-    showNepalLink();
-    setInterval(showNepalLink, 30000); // change every 30s
-    npSkip.addEventListener('click', showNepalLink);
+animate();
 
-    // ====== INNOVATIONS DATA (sample list; add 1000+ easily) ======
-    const INNOVATIONS = [
-      { title: 'Printing Press', intro: 'Mass production of books; boosted literacy and ideas.', link: 'https://en.wikipedia.org/wiki/Printing_press', tags: ['history','communication'] },
-      { title: 'Electricity (AC/DC)', intro: 'Powering the modern world with energy distribution.', link: 'https://en.wikipedia.org/wiki/Electricity', tags: ['energy'] },
-      { title: 'Penicillin', intro: 'Antibiotic that transformed medicine and saved millions.', link: 'https://en.wikipedia.org/wiki/Penicillin', tags: ['health'] },
-      { title: 'Internet', intro: 'Global network connecting people and knowledge.', link: 'https://en.wikipedia.org/wiki/Internet', tags: ['technology','communication'] },
-      { title: 'Smartphone', intro: 'A computer in your pocket with endless apps.', link: 'https://en.wikipedia.org/wiki/Smartphone', tags: ['technology'] },
-      { title: 'Vaccination', intro: 'Immunity through science; eradicated deadly diseases.', link: 'https://en.wikipedia.org/wiki/Vaccine', tags: ['health'] },
-      { title: 'GPS', intro: 'Global positioning enabling maps, logistics, and safety.', link: 'https://en.wikipedia.org/wiki/Global_Positioning_System', tags: ['space','navigation'] },
-      { title: 'Solar Panels', intro: 'Clean power from sunlight for homes and cities.', link: 'https://en.wikipedia.org/wiki/Photovoltaics', tags: ['energy','climate'] },
-      { title: '3D Printing', intro: 'Make objects layer by layer — rapid prototyping.', link: 'https://en.wikipedia.org/wiki/3D_printing', tags: ['manufacturing','technology'] },
-      { title: 'CRISPR', intro: 'Gene editing to precisely change DNA.', link: 'https://en.wikipedia.org/wiki/CRISPR_gene_editing', tags: ['health','biology'] },
-      { title: 'Steam Engine', intro: 'Powered the Industrial Revolution.', link: 'https://en.wikipedia.org/wiki/Steam_engine', tags: ['history','transport'] },
-      { title: 'Airplane', intro: 'Human flight across continents.', link: 'https://en.wikipedia.org/wiki/Airplane', tags: ['transport'] },
-      { title: 'Blockchain', intro: 'Distributed ledgers for transparent records.', link: 'https://en.wikipedia.org/wiki/Blockchain', tags: ['technology','finance'] },
-      { title: 'Machine Learning', intro: 'Algorithms that learn patterns from data.', link: 'https://en.wikipedia.org/wiki/Machine_learning', tags: ['ai','technology'] },
-      { title: 'Electric Vehicles', intro: 'Clean transport with batteries & motors.', link: 'https://en.wikipedia.org/wiki/Electric_vehicle', tags: ['transport','energy'] },
-      { title: 'Cloud Computing', intro: 'On-demand computing power and storage.', link: 'https://en.wikipedia.org/wiki/Cloud_computing', tags: ['technology'] },
-      { title: 'Microscope', intro: 'Revealed the micro-world; advanced biology.', link: 'https://en.wikipedia.org/wiki/Microscope', tags: ['science'] },
-      { title: 'Television', intro: 'Broadcasting images; global media culture.', link: 'https://en.wikipedia.org/wiki/Television', tags: ['communication'] },
-      { title: 'Magnetic Resonance Imaging', intro: 'Detailed body scans without radiation.', link: 'https://en.wikipedia.org/wiki/Magnetic_resonance_imaging', tags: ['health'] },
-      { title: 'Artificial Satellites', intro: 'Weather, GPS, communication from orbit.', link: 'https://en.wikipedia.org/wiki/Satellite', tags: ['space','communication'] },
-      { title: 'Green Revolution', intro: 'High-yield crops; feeding billions.', link: 'https://en.wikipedia.org/wiki/Green_Revolution', tags: ['agriculture'] },
-      { title: 'Paper', intro: 'Portable knowledge medium for millennia.', link: 'https://en.wikipedia.org/wiki/Paper', tags: ['history'] },
-      { title: 'Compass', intro: 'Navigation that opened world exploration.', link: 'https://en.wikipedia.org/wiki/Compass', tags: ['navigation','history'] },
-      { title: 'Antiseptics', intro: 'Reduced infections during surgery.', link: 'https://en.wikipedia.org/wiki/Antiseptic', tags: ['health'] },
-      { title: 'Concrete', intro: 'Durable building material shaping cities.', link: 'https://en.wikipedia.org/wiki/Concrete', tags: ['construction'] },
-      { title: 'Batteries', intro: 'Portable energy for devices and cars.', link: 'https://en.wikipedia.org/wiki/Battery_(electricity)', tags: ['energy'] },
-      { title: 'Printing (Movable Type)', intro: 'Efficient text reproduction system.', link: 'https://en.wikipedia.org/wiki/Movable_type', tags: ['history','communication'] },
-      { title: 'Air Conditioning', intro: 'Climate control that changed work & life.', link: 'https://en.wikipedia.org/wiki/Air_conditioning', tags: ['comfort'] },
-      { title: 'Anesthesia', intro: 'Pain-free surgery and care.', link: 'https://en.wikipedia.org/wiki/Anesthesia', tags: ['health'] },
-      { title: 'Optical Fiber', intro: 'Light-speed internet backbones.', link: 'https://en.wikipedia.org/wiki/Optical_fiber', tags: ['communication','technology'] },
-      { title: 'Agricultural Irrigation', intro: 'Water for crops at scale.', link: 'https://en.wikipedia.org/wiki/Irrigation', tags: ['agriculture'] },
-    ];
-
-    // Render innovations
-    const grid = document.getElementById('innovations-grid');
-    const countEl = document.getElementById('innovations-count');
-    const tagsEl = document.getElementById('tags');
-    const searchEl = document.getElementById('innovations-search');
-
-    // Build unique tag list
-    const TAGS = Array.from(new Set(INNOVATIONS.flatMap(i => i.tags))).sort();
-    function renderTags(active=null){
-      tagsEl.innerHTML = '';
-      const all = document.createElement('button');
-      all.textContent = 'All';
-      all.className = `px-3 py-1 rounded-full border ${active? 'border-gray-300 text-gray-600':'bg-indigo-600 text-white border-indigo-600'}`;
-      all.onclick = ()=>{ renderCards(INNOVATIONS); renderTags(null); searchEl.value=''; };
-      tagsEl.appendChild(all);
-      TAGS.forEach(t=>{
-        const b = document.createElement('button');
-        b.textContent = t;
-        b.className = `px-3 py-1 rounded-full border ${active===t? 'bg-indigo-600 text-white border-indigo-600':'border-gray-300 hover:border-indigo-600 hover:text-indigo-600'}`;
-        b.onclick = ()=>{ const f = INNOVATIONS.filter(i=>i.tags.includes(t)); renderCards(f); renderTags(t); searchEl.value=''; };
-        tagsEl.appendChild(b);
-      });
-    }
-
-    function renderCards(list){
-      grid.innerHTML = '';
-      list.forEach(item=>{
-        const card = document.createElement('a');
-        card.href = item.link; card.target = '_blank' ; card.rel = 'noopener noreferrer';
-        card.className = 'block p-6 rounded-2xl bg-white border border-gray-200 shadow-sm card-hover';
-        card.innerHTML = `
-          <h3 class="font-semibold text-lg">${item.title}</h3>
-          <p class="text-gray-600 mt-1 text-sm">${item.intro}</p>
-          <div class="mt-3 flex flex-wrap gap-1">${item.tags.map(t=>`<span class='px-2 py-0.5 text-xs rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100'>${t}</span>`).join('')}</div>
-          <p class="mt-3 text-sm text-indigo-600 underline">Learn more →</p>`;
-        grid.appendChild(card);
-      });
-      countEl.textContent = `${list.length} shown • ${INNOVATIONS.length} total`;
-    }
-
-    searchEl.addEventListener('input', (e)=>{
-      const q = e.target.value.toLowerCase();
-      const f = INNOVATIONS.filter(i => (i.title+" "+i.intro+" "+i.tags.join(' ')).toLowerCase().includes(q));
-      renderCards(f);
-    });
-    document.getElementById('reset-btn').addEventListener('click', ()=>{ searchEl.value=''; renderCards(INNOVATIONS); renderTags(null); });
-
-    // Initialize innovations UI
-    renderCards(INNOVATIONS);
-    renderTags(null);
-
-    // ====== COUNTERS ======
-    const counters = document.querySelectorAll('[data-counter]');
-    const appear = new IntersectionObserver((entries)=>{
-      entries.forEach(entry=>{
-        if(entry.isIntersecting){
-          const el = entry.target; const end = parseInt(el.getAttribute('data-counter'), 10);
-          let cur = 0; const step = Math.ceil(end/60);
-          const iv = setInterval(()=>{ cur += step; if(cur >= end){ cur = end; clearInterval(iv);} el.textContent = cur; }, 20);
-          appear.unobserve(el);
-        }
-      })
-    }, { threshold: 0.6 });
-    counters.forEach(c=>appear.observe(c));
-
-    // Utility: set year
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+// --- Window Resize ---
+window.addEventListener('resize', ()=>{
+  camera.aspect = window.innerWidth/window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
 </body>
 </html>
