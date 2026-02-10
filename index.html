@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>A Red, Red Rose - Presentation</title>
+<title>A Red, Red Rose | Presentation</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Poppins&display=swap" rel="stylesheet">
 
 <style>
@@ -14,33 +15,60 @@ body{
   scroll-behavior:smooth;
 }
 
+/* Progress bar */
+#progress{
+  position:fixed;
+  top:0;left:0;
+  height:5px;
+  background:red;
+  width:0%;
+  z-index:999;
+}
+
+/* Navbar */
+nav{
+  position:fixed;
+  top:10px;
+  right:20px;
+  z-index:1000;
+}
+nav a{
+  margin:10px;
+  color:white;
+  text-decoration:none;
+  font-weight:bold;
+}
+
 /* Hero */
 .hero{
   height:100vh;
-  background:url("https://images.unsplash.com/photo-1509042239860-f550ce710b93") center/cover;
+  background:url("https://images.unsplash.com/photo-1509042239860-f550ce710b93") center/cover fixed;
   display:flex;
   align-items:center;
   justify-content:center;
   text-align:center;
 }
-.hero h1{font-size:60px;font-family:Playfair Display;}
-.hero p{font-size:20px}
+.hero h1{font-size:70px;font-family:Playfair Display;}
+.hero p{font-size:22px}
 
 /* Sections */
 section{
-  padding:80px 10%;
+  padding:90px 10%;
   text-align:center;
 }
+h2{margin-bottom:20px;font-family:Playfair Display}
+
+/* Glass card */
 .card{
-  background:rgba(255,255,255,0.1);
+  background:rgba(255,255,255,0.08);
   padding:25px;
+  border-radius:20px;
   margin:20px;
-  border-radius:15px;
   backdrop-filter:blur(10px);
-  box-shadow:0 0 20px rgba(255,0,0,0.3);
-  transition:0.4s;
+  box-shadow:0 0 25px rgba(255,0,0,0.3);
+  transition:0.5s;
 }
-.card:hover{transform:scale(1.05)}
+.card:hover{transform:translateY(-10px) scale(1.03)}
 
 /* Grid */
 .grid{
@@ -49,7 +77,18 @@ section{
   gap:20px;
 }
 
-/* Floating hearts */
+/* Scroll animation */
+.reveal{
+  opacity:0;
+  transform:translateY(40px);
+  transition:1s;
+}
+.reveal.active{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* Hearts */
 .heart{
   position:fixed;
   bottom:-20px;
@@ -64,7 +103,7 @@ section{
 
 /* Meme */
 .meme img{
-  width:250px;
+  width:260px;
   margin-top:20px;
 }
 button{
@@ -73,13 +112,33 @@ button{
   background:red;
   color:white;
   font-size:18px;
-  border-radius:20px;
+  border-radius:30px;
+  cursor:pointer;
+}
+
+/* Music */
+.music-btn{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  background:red;
+  padding:10px 15px;
+  border-radius:50%;
   cursor:pointer;
 }
 </style>
 </head>
 
 <body>
+
+<div id="progress"></div>
+
+<nav>
+  <a href="#about">Poet</a>
+  <a href="#summary">Summary</a>
+  <a href="#devices">Devices</a>
+  <a href="#end">End</a>
+</nav>
 
 <div class="hero">
   <div>
@@ -89,19 +148,19 @@ button{
   </div>
 </div>
 
-<section>
+<section id="about" class="reveal">
 <h2>About the Poet</h2>
 <div class="card">
-Robert Burns was a famous Scottish poet known for romantic and emotional poems. He wrote about love, nature and human feelings.
+Robert Burns was a famous Scottish poet known for romantic and emotional poems about love, nature and human feelings.
 </div>
 </section>
 
-<section>
+<section id="summary" class="reveal">
 <h2>Poem Summary</h2>
 <div class="grid">
   <div class="card">
     <h3>Beginning</h3>
-    The poet compares his love to a red rose and a sweet melody.
+    The poet compares his love to a beautiful red rose and sweet music.
   </div>
   <div class="card">
     <h3>Middle</h3>
@@ -109,12 +168,12 @@ Robert Burns was a famous Scottish poet known for romantic and emotional poems. 
   </div>
   <div class="card">
     <h3>Ending</h3>
-    Even if they are far away, his love will remain.
+    Even distance cannot destroy true love.
   </div>
 </div>
 </section>
 
-<section>
+<section id="devices" class="reveal">
 <h2>Literary Devices</h2>
 <div class="grid">
   <div class="card">Simile – "like a red, red rose"</div>
@@ -123,29 +182,44 @@ Robert Burns was a famous Scottish poet known for romantic and emotional poems. 
 </div>
 </section>
 
-<section>
+<section class="reveal">
 <h2>Moral</h2>
 <div class="card">
-True love is pure, deep and everlasting.
+True love is pure, loyal and everlasting.
 </div>
 </section>
 
-<section>
-<h2>My Opinion</h2>
-<div class="card">
-This poem teaches us that real love is not only about beauty but about loyalty and deep emotions.
-</div>
-</section>
-
-<section class="meme">
+<section id="end" class="meme reveal">
 <h2>ANY QUESTIONS? 😎</h2>
 <img src="https://i.imgur.com/9bK0V8O.png">
 <p>Or was I too romantic for you all? 😂🌹</p>
 <button>Thank You!</button>
 </section>
 
+<div class="music-btn" onclick="toggleMusic()">🎵</div>
+<audio id="music" loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">
+</audio>
+
 <script>
-// hearts
+// Progress bar
+window.onscroll=()=>{
+  let winScroll=document.documentElement.scrollTop;
+  let height=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+  document.getElementById("progress").style.width=(winScroll/height)*100+"%";
+};
+
+// Scroll reveal
+const reveals=document.querySelectorAll(".reveal");
+window.addEventListener("scroll",()=>{
+  reveals.forEach(r=>{
+    if(r.getBoundingClientRect().top<window.innerHeight-100){
+      r.classList.add("active");
+    }
+  });
+});
+
+// Hearts
 setInterval(()=>{
   let h=document.createElement("div");
   h.innerHTML="❤️";
@@ -153,7 +227,14 @@ setInterval(()=>{
   h.style.left=Math.random()*100+"%";
   document.body.appendChild(h);
   setTimeout(()=>h.remove(),6000);
-},500);
+},600);
+
+// Music
+function toggleMusic(){
+  let m=document.getElementById("music");
+  if(m.paused) m.play();
+  else m.pause();
+}
 </script>
 
 </body>
